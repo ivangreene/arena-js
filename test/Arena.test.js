@@ -14,7 +14,7 @@ beforeEach(function () {
       channels: []
     });
   });
-  arena = new Arena({ requestHandler, baseUrl: '/' });
+  arena = new Arena({ requestHandler });
 });
 
 describe('Arena', function() {

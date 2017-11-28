@@ -37,7 +37,14 @@ class Arena {
         .then(pullObject('channels')),
       contents: (opts) => this._req('GET', 'channels/' + slug + '/contents', data, opts)
         .then(pullObject('contents')),
-      // new: (title, status) => this._req('POST', 'channels', { title, status })
+      collaborators: (opts) => this._req('GET', 'channels/' + slug + '/collaborators', data, opts)
+        .then(pullObject('users')),
+      create: (title, status) => this._req('POST', 'channels', {
+        // Allow it to be called as .channel(title).create(status) or .channel().create(title, status)
+        title: slug || title, status: slug ? title : status
+      }),
+      delete: (deleteSlug) => this._req('DELETE', 'channels/' + (slug || deleteSlug)),
+      update: (opts) => this._req('PUT', 'channels/' + slug, opts),
     }
   }
 
@@ -49,6 +56,7 @@ class Arena {
     return {
       get: (opts) => this._req('GET', 'blocks/' + id, data, opts),
       channels: (opts) => this._req('GET', 'blocks/' + id + '/channels', data, opts)
+        .then(pullObject('channels'))
     }
   }
 }
