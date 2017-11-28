@@ -33,35 +33,35 @@ describe('Arena', function() {
     it('.get() should retrieve a channel', function() {
       return Promise.all([
         expect(channel.get({ page: 1, per: 2 })).to.eventually.have.property('contents'),
-        expect(requestHandler).to.have.been.calledWith('get', '/channels/slug', { page: 1, per: 2 })
+        expect(requestHandler).to.have.been.calledWith('get', 'channels/slug', { page: 1, per: 2 })
       ]);
     });
 
     it('.thumb() should retrieve a channel', function() {
       return Promise.all([
         expect(channel.thumb()).to.eventually.have.property('contents'),
-        expect(requestHandler).to.have.been.calledWith('get', '/channels/slug/thumb')
+        expect(requestHandler).to.have.been.calledWith('get', 'channels/slug/thumb')
       ]);
     });
 
     it('.connections() should get the connections in the channel', function() {
       return Promise.all([
         expect(channel.connections()).to.eventually.be.an('array'),
-        expect(requestHandler).to.have.been.calledWith('get', '/channels/slug/connections')
+        expect(requestHandler).to.have.been.calledWith('get', 'channels/slug/connections')
       ]);
     });
 
     it('.channels() should get the channels connected to blocks in the channel', function() {
       return Promise.all([
         expect(channel.channels()).to.eventually.be.an('array'),
-        expect(requestHandler).to.have.been.calledWith('get', '/channels/slug/channels')
+        expect(requestHandler).to.have.been.calledWith('get', 'channels/slug/channels')
       ]);
     });
 
     it('.contents() should get contents as an array', function() {
       return Promise.all([
         expect(channel.contents()).to.eventually.be.an('array'),
-        expect(requestHandler).to.have.been.calledWith('get', '/channels/slug/contents')
+        expect(requestHandler).to.have.been.calledWith('get', 'channels/slug/contents')
       ]);
     });
   });

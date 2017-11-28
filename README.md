@@ -33,6 +33,8 @@ arena.channel('mindfuck').get()
 
 The class is organized hierarchically as nested objects. Emulates the [are.na api documentation](https://dev.are.na/documentation/) structure.
 
+Methods that resolve with an Array will have an `attrs` property that contains the other data returned. For example, `channel(slug).connections()` will resolve with an Array of the channel's block's connections, and an `attrs` property containing properties like `length`, `total_pages`, `current_page`, etc.
+
 ### - `channel([slug || id] [, params])`
   - `.get([params])` - *`Promise<Object>`* - get the channel. Gets a list of public channels if slug/id not specified.
   - `.thumb([params])` - *`Promise<Object>`* - limited view of the channel.
