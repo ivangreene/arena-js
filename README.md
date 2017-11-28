@@ -36,8 +36,8 @@ The class is organized hierarchically as nested objects. Emulates the [are.na ap
 ### - `channel([slug || id] [, params])`
   - `.get([params])` - *`Promise<Object>`* - get the channel. Gets a list of public channels if slug/id not specified.
   - `.thumb([params])` - *`Promise<Object>`* - limited view of the channel.
-  - `.connections([params])` - *`Promise<Object>`*
-  - `.channels([params])` - *`Promise<Object>`*
+  - `.connections([params])` - *`Promise<Array>`*
+  - `.channels([params])` - *`Promise<Array>`*
   - `.contents([params])` - *`Promise<Array>`*
 #### Example:
 ```js
