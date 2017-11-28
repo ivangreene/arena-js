@@ -1,0 +1,30 @@
+{
+  "name": "are.na",
+  "version": "0.0.1",
+  "description": "Interface to are.na API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivangreene/arena-js.git"
+  },
+  "keywords": [
+    "are.na",
+    "api",
+    "axios",
+    "request",
+    "rest",
+    "oauth"
+  ],
+  "author": "Ivan Greene",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ivangreene/arena-js/issues"
+  },
+  "homepage": "https://github.com/ivangreene/arena-js#readme",
+  "dependencies": {
+    "axios": "^0.17.1"
+  }
+}
