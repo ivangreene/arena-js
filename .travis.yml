@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- node
+script: npm test
+deploy:
+  provider: npm
+  email: ivan@ivan.sh
+  api_key:
+    secure: McYp51NqKHjGJvrbWlIqA/z753aG/X04rXeAa/KBBwOoEnlORLnKuGMVhlHwmuTGwGkyWfOu63s9ScV8apbewHzurWYf6GOO9ndOVPwFsF4jvGdmY13YJncOArbv/n4By0hqUc0XX2Y5vH2CPsx1CIcS2byofM7wE8bMj/eqqA3jT/VeUP9dSyFMu2TVzf9TPDbbE37ghCvci3P1XyaBMFKa7wE+qOHInEjQdIHkGI/6hvDAUgZW7RhZJYLwqP43R7rrJicmoNAUsSRGwZE88iFG4dz7qAHrFGVX7cZ3RCmcZzfdG1xi4TD1o3xwfJ+12YGdzfOCc4FIZ6vD+MrU2yYkWhJAK0tZwADFGVNz5JRWL9JMxpo5QUWTOliJGCtv/ooLDJAtNcK3Pllcd4wX7jfq91T5kI4tWtjac8I0jmPmlSe1E3YjQWSSlWBo0I10Ix+NF50OX35xWTdhNfHcw0AVIuS+2P6tGaTsD9GmeY1RRAbQ7Fcpz6c15ddGfAjPd4uKZSQU/a6IkT72M7jjH2j82wRJWpL833Sb/IG0/7hiflbtITQyKuaFzyTQyNTihiPAlUZsQnGQ1yoyEilPJZVTF1uamVPKVYy71dqs2FT9/0Y2YLvmQgxyBx98zb8BAKW0v2K6eYYFsfhZ2BxD87rBj44plcHgNTPd9bWEqBI=
+  on:
+    tags: true
+    repo: ivangreene/arena-js
