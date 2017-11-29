@@ -62,7 +62,7 @@ Methods that resolve with an Array will have an `attrs` property that contains t
 ####  - `.delete([slug])`
   - *`Promise`* - Delete the channel. Can be called as `channel(slug).delete()` or `channel().delete(slug)`.
 ####  - `.update(params)`
-  - *`Promise<Object>`* - Update the channel's attributes. `params` should be an object and can include `title` and/or `status`.
+  - *`Promise<Object>`* - Update the channel's attributes. `params` should be an object and can include `title` and/or `status`. Currently it appears that the are.na API requires both values. If `title` is not set, an error will occur. If `status` is not set, it will default to "public".
 #### - `.addCollaborators(...userIds)`
   - *`Promise<Array>`* - Add collaborators to a channel. Pass userIds as an Array or multiple arguments. `channel(slug).addCollaborators(123, 456)` or `channel(slug).addCollaborators([123, 456])` works.
 #### - `.deleteCollaborators(...userIds)`
