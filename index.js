@@ -12,6 +12,15 @@ const pullObject = key => object => {
   return newObj;
 };
 
+// Helper to accept an array or multiple arguments
+// and convert to array
+const arrayOrList = list => {
+  if (typeof list[0] === 'object' || typeof list[0] === 'array') {
+    return list[0];
+  }
+  return list;
+};
+
 class Arena {
   constructor(opts) {
     opts = opts || {};
@@ -50,8 +59,10 @@ class Arena {
       }),
       delete: (deleteSlug) => this._req('DELETE', 'channels/' + (slug || deleteSlug)),
       update: (opts) => this._req('PUT', 'channels/' + slug, opts),
-      addCollaborators: (...ids) => this._req('POST', 'channels/' + slug + '/collaborators', {'ids[]': ids}),
-      deleteCollaborators: (...ids) => this._req('DELETE', 'channels/' + slug + '/collaborators', {'ids[]': ids})
+      addCollaborators: (...ids) => this._req('POST', 'channels/' + slug + '/collaborators', {'ids[]': arrayOrList(ids)})
+        .then(pullObject('users')),
+      deleteCollaborators: (...ids) => this._req('DELETE', 'channels/' + slug + '/collaborators', {'ids[]': arrayOrList(ids)})
+        .then(pullObject('users'))
     }
   }
 
