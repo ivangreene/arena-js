@@ -33,7 +33,7 @@ describe('Arena', function() {
     it('.get() should retrieve a channel', function() {
       return Promise.all([
         expect(channel.get({ page: 1, per: 2 })).to.eventually.have.property('contents'),
-        expect(requestHandler).to.have.been.calledWith('get', 'channels/slug', { page: 1, per: 2 })
+        expect(requestHandler).to.have.been.calledWith('get', 'channels/slug', 'page=1&per=2')
       ]);
     });
 

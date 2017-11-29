@@ -1,4 +1,5 @@
 const axios = require('axios');
+const qs = require('qs');
 
 // Helper to deal with pulling an inner object out of returned data
 // and then assigning other data as "attrs"
@@ -16,7 +17,10 @@ class Arena {
     opts = opts || {};
     this.axios = axios.create({
       baseURL: opts.baseURL || 'http://api.are.na/v2/',
-      headers: opts.accessToken ? { Authorization: 'Bearer ' + opts.accessToken } : undefined
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: (opts.accessToken ? 'Bearer ' + opts.accessToken : undefined)
+      }
     });
     this.requestHandler = opts.requestHandler || (
       (method, url, data) => this.axios.request({ method, url, data }).then(({data}) => data)
@@ -24,10 +28,11 @@ class Arena {
   }
 
   _req(method, url, ...data) {
-    return this.requestHandler(method.toLowerCase(), url, Object.assign({}, ...data));
+    return this.requestHandler(method.toLowerCase(), url, qs.stringify(Object.assign({}, ...data), {indices:false}));
   }
 
   channel(slug, data) {
+    slug = slug || '';
     return {
       get: (opts) => this._req('GET', 'channels/' + slug, data, opts),
       thumb: (opts) => this._req('GET', 'channels/' + slug + '/thumb', data, opts),
@@ -45,6 +50,8 @@ class Arena {
       }),
       delete: (deleteSlug) => this._req('DELETE', 'channels/' + (slug || deleteSlug)),
       update: (opts) => this._req('PUT', 'channels/' + slug, opts),
+      addCollaborators: (...ids) => this._req('POST', 'channels/' + slug + '/collaborators', {'ids[]': ids}),
+      deleteCollaborators: (...ids) => this._req('DELETE', 'channels/' + slug + '/collaborators', {'ids[]': ids})
     }
   }
 
