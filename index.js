@@ -25,7 +25,7 @@ class Arena {
   constructor(opts) {
     opts = opts || {};
     this.axios = axios.create({
-      baseURL: opts.baseURL || 'http://api.are.na/v2/',
+      baseURL: opts.baseURL || 'https://api.are.na/v2/',
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         Authorization: (opts.accessToken ? 'Bearer ' + opts.accessToken : undefined)

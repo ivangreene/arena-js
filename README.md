@@ -36,7 +36,7 @@ The class is organized hierarchically as nested objects. Emulates the [are.na ap
 ### - `new Arena([config])`
   - Config can optionally be passed as an object:
     - `accessToken`: Your are.na API access token
-    - `baseURL`: Base URL to make requests on (default: `http://api.are.na/v2/`)
+    - `baseURL`: Base URL to make requests on (default: `https://api.are.na/v2/`)
 #### Example:
 ```js
 let arena = new Arena({ accessToken: 'abcd' });
