@@ -24,12 +24,15 @@ const arrayOrList = list => {
 class Arena {
   constructor(opts) {
     opts = opts || {};
+    let headers = {
+      "Content-Type": "application/x-www-form-urlencoded",
+    };
+    if (opts.accessToken) {
+      headers.Authorization = 'Bearer ' + opts.accessToken;
+    }
     this.axios = axios.create({
       baseURL: opts.baseURL || 'https://api.are.na/v2/',
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: (opts.accessToken ? 'Bearer ' + opts.accessToken : undefined)
-      }
+      headers
     });
     this.requestHandler = opts.requestHandler || (
       (method, url, data) => this.axios.request({ method, url, data }).then(({data}) => data)
