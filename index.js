@@ -65,7 +65,15 @@ class Arena {
       addCollaborators: (...ids) => this._req('POST', 'channels/' + slug + '/collaborators', {'ids[]': arrayOrList(ids)})
         .then(pullObject('users')),
       deleteCollaborators: (...ids) => this._req('DELETE', 'channels/' + slug + '/collaborators', {'ids[]': arrayOrList(ids)})
-        .then(pullObject('users'))
+        .then(pullObject('users')),
+      createBlock: (content) => {
+        let block = { content };
+        if (content.match(/^https?:\/\//)) {
+          block = { source: content };
+        }
+        return this._req('POST', 'channels/' + slug + '/blocks', block);
+      },
+      deleteBlock: (id) => this._req('DELETE', 'channels/' + slug + '/blocks/' + id)
     }
   }
 
@@ -77,7 +85,8 @@ class Arena {
     return {
       get: (opts) => this._req('GET', 'blocks/' + id, data, opts),
       channels: (opts) => this._req('GET', 'blocks/' + id + '/channels', data, opts)
-        .then(pullObject('channels'))
+        .then(pullObject('channels')),
+      create: (channel, content) => this.channel(channel).createBlock(content)
     }
   }
 }

@@ -67,6 +67,10 @@ Methods that resolve with an Array will have an `attrs` property that contains t
   - *`Promise<Array>`* - Add collaborators to a channel. Pass userIds as an Array or multiple arguments. `channel(slug).addCollaborators(123, 456)` or `channel(slug).addCollaborators([123, 456])` works.
 #### - `.deleteCollaborators(...userIds)`
   - *`Promise<Array>`* - Remove collaborators from a channel. Accepts userIds in the same format as addCollaborators.
+#### - `.createBlock(content|source)`
+  - *`Promise<Object>`* - Create a block and add it to the channel. Specify textual content or a source link.
+#### - `.deleteBlock(blockId)`
+  - *`Promise`* - Remove a block from the channel.
 #### Example:
 ```js
 // Get first 3 pieces of content from a channel and print their titles
@@ -91,3 +95,5 @@ arena.channel().create('beautiful foods', 'closed')
   - *`Promise<Object>`* - Get the block specified by id.
 ####  - `.channels([params])`
   - *`Promise<Array>`* - Get a list of the channels a block belongs to.
+#### - `.create(channelSlug, content|source)`
+  - *`Promise<Object>`* - Create a block and add it to the channel. Specify textual content or a source link.
