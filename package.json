@@ -4,7 +4,7 @@
   "description": "Interface to are.na API",
   "main": "index.js",
   "scripts": {
-    "pretest": "test -d test/staged/get || ( test ! -d test/staged/get && wget -cx -P test/staged/get -B https://api.are.na/v2/ -i test/staged/list.txt )",
+    "pretest": "find test/staged | grep \\? | sed -e 's#^.*api.are.na/v2/##' | cat test/staged/list.txt - | sort | uniq -u | wget -cx -P test/staged/get -B https://api.are.na/v2/ -i -",
     "test": "mocha",
     "test:watch": "mocha -w",
     "postversion": "git push && git push --tags"
