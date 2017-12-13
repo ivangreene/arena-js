@@ -4,6 +4,7 @@
   "description": "Interface to are.na API",
   "main": "index.js",
   "scripts": {
+    "pretest": "test -d test/staged/get || ( test ! -d test/staged/get && wget -cx -P test/staged/get -B https://api.are.na/v2/ -i test/staged/list.txt )",
     "test": "mocha",
     "test:watch": "mocha -w",
     "postversion": "git push && git push --tags"
