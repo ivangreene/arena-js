@@ -12,3 +12,7 @@ users/23484?
 users/23484/channels?
 users/23484/following?
 users/23484/followers?
+search?q=art
+search/users?q=art
+search/channels?q=art
+search/blocks?q=art

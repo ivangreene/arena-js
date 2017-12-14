@@ -163,4 +163,45 @@ describe('Arena', function() {
       ]);
     });
   });
+
+  describe('.search(query)', function () {
+    let search;
+
+    beforeEach(function () {
+      search = arena.search('art');
+    });
+
+    it('.all() should search for query', function () {
+      return Promise.all([
+        expect(search.all()).to.eventually.be.an('object'),
+        expect(requestHandler).to.have.been.calledWith('get',
+          'search', 'q=art')
+      ]);
+    });
+
+    it('.users() should search for users', function () {
+      return Promise.all([
+        expect(search.users()).to.eventually.be.an('array'),
+        expect(requestHandler).to.have.been.calledWith('get',
+          'search/users', 'q=art')
+      ]);
+    });
+
+    it('.channels() should search for channels', function () {
+      return Promise.all([
+        expect(search.channels()).to.eventually.be.an('array'),
+        expect(requestHandler).to.have.been.calledWith('get',
+          'search/channels', 'q=art')
+      ]);
+    });
+
+    it('.blocks() should search for blocks', function () {
+      return Promise.all([
+        expect(search.blocks()).to.eventually.be.an('array'),
+        expect(requestHandler).to.have.been.calledWith('get',
+          'search/blocks', 'q=art')
+      ]);
+    });
+  });
+
 });

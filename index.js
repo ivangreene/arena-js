@@ -35,12 +35,14 @@ class Arena {
       headers
     });
     this.requestHandler = opts.requestHandler || (
-      (method, url, data) => this.axios.request({ method, url, data }).then(({data}) => data)
+      (method, url, data) => this.axios.request({ method, url, data })
+        .then(({data}) => data)
     );
   }
 
   _req(method, url, ...data) {
-    return this.requestHandler(method.toLowerCase(), url, qs.stringify(Object.assign({}, ...data), {indices:false}));
+    return this.requestHandler(method.toLowerCase(), url,
+      qs.stringify(Object.assign({}, ...data), {indices:false}));
   }
 
   channel(slug, data) {
@@ -68,7 +70,8 @@ class Arena {
           .then(pullObject('users')),
 
       create: (title, status) => this._req('POST', 'channels', {
-        // Allow it to be called as .channel(title).create(status) or .channel().create(title, status)
+        // Allow it to be called as .channel(title).create(status) or
+        // .channel().create(title, status)
         title: slug || title, status: slug ? title : status
       }),
 
@@ -127,6 +130,22 @@ class Arena {
           .then(pullObject('users')),
     }
   }
+
+  search(q, data) {
+    return {
+      all: (opts) => this._req('GET', 'search', {q}, data, opts),
+
+      users: (opts) => this._req('GET', 'search/users', {q}, data, opts)
+        .then(pullObject('users')),
+
+      channels: (opts) => this._req('GET', 'search/channels', {q}, data, opts)
+        .then(pullObject('channels')),
+
+      blocks: (opts) => this._req('GET', 'search/blocks', {q}, data, opts)
+        .then(pullObject('blocks')),
+    };
+  }
+
 }
 
 module.exports = Arena;
