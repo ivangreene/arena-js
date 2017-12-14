@@ -8,3 +8,7 @@ channels/arena-influences/connections?
 channels/arena-influences/contents?
 channels/arena-influences/thumb?
 channels?page=3&per=10
+users/23484?
+users/23484/channels?
+users/23484/following?
+users/23484/followers?

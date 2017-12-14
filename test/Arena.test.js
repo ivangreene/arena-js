@@ -32,8 +32,10 @@ describe('Arena', function() {
 
     it('.get() should be a list of channels', function () {
       return Promise.all([
-        expect(arena.channel().get({ page: 3, per: 10 })).to.eventually.have.property('channels'),
-        expect(requestHandler).to.have.been.calledWith('get', 'channels/', 'page=3&per=10')
+        expect(arena.channel().get({ page: 3, per: 10 })).to.eventually.
+          have.property('channels'),
+        expect(requestHandler).to.have.been.calledWith('get', 'channels/',
+          'page=3&per=10')
       ]);
     });
 
@@ -50,35 +52,114 @@ describe('Arena', function() {
     it('.get() should retrieve a channel', function() {
       return Promise.all([
         expect(channel.get()).to.eventually.have.property('contents'),
-        expect(requestHandler).to.have.been.calledWith('get', 'channels/arena-influences')
+        expect(requestHandler).to.have.been.calledWith('get',
+          'channels/arena-influences')
       ]);
     });
 
     it('.thumb() should retrieve a channel', function() {
       return Promise.all([
         expect(channel.thumb()).to.eventually.have.property('contents'),
-        expect(requestHandler).to.have.been.calledWith('get', 'channels/arena-influences/thumb')
+        expect(requestHandler).to.have.been.calledWith('get',
+          'channels/arena-influences/thumb')
       ]);
     });
 
     it('.connections() should get the connections in the channel', function() {
       return Promise.all([
         expect(channel.connections()).to.eventually.be.an('array'),
-        expect(requestHandler).to.have.been.calledWith('get', 'channels/arena-influences/connections')
+        expect(requestHandler).to.have.been.calledWith('get',
+          'channels/arena-influences/connections')
       ]);
     });
 
-    it('.channels() should get the channels connected to blocks in the channel', function() {
+    it('.channels() should get the channels connected to blocks in the channel'
+      , function() {
       return Promise.all([
         expect(channel.channels()).to.eventually.be.an('array'),
-        expect(requestHandler).to.have.been.calledWith('get', 'channels/arena-influences/channels')
+        expect(requestHandler).to.have.been.calledWith('get',
+          'channels/arena-influences/channels')
       ]);
     });
 
     it('.contents() should get contents as an array', function() {
       return Promise.all([
         expect(channel.contents()).to.eventually.be.an('array'),
-        expect(requestHandler).to.have.been.calledWith('get', 'channels/arena-influences/contents')
+        expect(requestHandler).to.have.been.calledWith('get',
+          'channels/arena-influences/contents')
+      ]);
+    });
+
+    it('.collaborators() should get collaborators as an array', function () {
+      return Promise.all([
+        expect(channel.collaborators()).to.eventually.be.an('array'),
+        expect(requestHandler).to.have.been.calledWith('get',
+          'channels/arena-influences/collaborators')
+      ]);
+    });
+  });
+
+  describe('.block(id)', function() {
+    let block;
+
+    beforeEach(function () {
+      block = arena.block(8693);
+    });
+
+    it('.get() should get the block', function () {
+      return Promise.all([
+        expect(block.get()).to.eventually.be.an('object'),
+        expect(requestHandler).to.have.been.calledWith('get',
+          'blocks/8693')
+      ]);
+    });
+
+    it('.channels() should get the channels the block belongs to',
+      function () {
+        return Promise.all([
+          expect(block.channels()).to.eventually.be.an('array'),
+          expect(requestHandler).to.have.been.calledWith('get',
+            'blocks/8693/channels')
+        ]);
+      });
+  });
+
+  describe('.user(id)', function () {
+    let user;
+
+    beforeEach(function () {
+      user = arena.user(23484);
+    });
+
+    it('.get() should get the user', function () {
+      return Promise.all([
+        expect(user.get()).to.eventually.be.an('object'),
+        expect(requestHandler).to.have.been.calledWith('get',
+          'users/23484')
+      ]);
+    });
+
+    it('.channels() should get their channels', function () {
+      return Promise.all([
+        expect(user.channels()).to.eventually.be.an('array'),
+        expect(requestHandler).to.have.been.calledWith('get',
+          'users/23484/channels')
+      ]);
+    });
+
+    it('.following() should get who they are following', function () {
+      return Promise.all([
+        expect(user.following()).to.eventually.be.an('array'),
+        expect(requestHandler).to.have.been.calledWith('get',
+          'users/23484/following')
+      ]);
+    });
+
+    it('.followers() should get their followers', function () {
+      return Promise.all([
+        expect(user.followers()).to.eventually.be.an('array'),
+        expect(requestHandler).to.have.been.calledWith('get',
+          'users/23484/followers')
       ]);
     });
   });

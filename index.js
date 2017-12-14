@@ -47,25 +47,44 @@ class Arena {
     slug = slug || '';
     return {
       get: (opts) => this._req('GET', 'channels/' + slug, data, opts),
-      thumb: (opts) => this._req('GET', 'channels/' + slug + '/thumb', data, opts),
-      connections: (opts) => this._req('GET', 'channels/' + slug + '/connections', data, opts)
-        .then(pullObject('channels')),
-      channels: (opts) => this._req('GET', 'channels/' + slug + '/channels', data, opts)
-        .then(pullObject('channels')),
-      contents: (opts) => this._req('GET', 'channels/' + slug + '/contents', data, opts)
-        .then(pullObject('contents')),
-      collaborators: (opts) => this._req('GET', 'channels/' + slug + '/collaborators', data, opts)
-        .then(pullObject('users')),
+
+      thumb: (opts) => this._req('GET', 'channels/' + slug + '/thumb',
+        data, opts),
+
+      connections: (opts) => this._req('GET',
+        'channels/' + slug + '/connections', data, opts)
+          .then(pullObject('channels')),
+
+      channels: (opts) => this._req('GET', 'channels/' + slug + '/channels',
+        data, opts)
+          .then(pullObject('channels')),
+
+      contents: (opts) => this._req('GET', 'channels/' + slug + '/contents',
+        data, opts)
+          .then(pullObject('contents')),
+
+      collaborators: (opts) => this._req('GET',
+        'channels/' + slug + '/collaborators', data, opts)
+          .then(pullObject('users')),
+
       create: (title, status) => this._req('POST', 'channels', {
         // Allow it to be called as .channel(title).create(status) or .channel().create(title, status)
         title: slug || title, status: slug ? title : status
       }),
-      delete: (deleteSlug) => this._req('DELETE', 'channels/' + (slug || deleteSlug)),
+
+      delete: (deleteSlug) => this._req('DELETE',
+        'channels/' + (slug || deleteSlug)),
+
       update: (opts) => this._req('PUT', 'channels/' + slug, opts),
-      addCollaborators: (...ids) => this._req('POST', 'channels/' + slug + '/collaborators', {'ids[]': arrayOrList(ids)})
-        .then(pullObject('users')),
-      deleteCollaborators: (...ids) => this._req('DELETE', 'channels/' + slug + '/collaborators', {'ids[]': arrayOrList(ids)})
-        .then(pullObject('users')),
+
+      addCollaborators: (...ids) => this._req('POST',
+        'channels/' + slug + '/collaborators', {'ids[]': arrayOrList(ids)})
+          .then(pullObject('users')),
+
+      deleteCollaborators: (...ids) => this._req('DELETE',
+        'channels/' + slug + '/collaborators', {'ids[]': arrayOrList(ids)})
+          .then(pullObject('users')),
+
       createBlock: (content) => {
         let block = { content };
         if (content.match(/^https?:\/\//)) {
@@ -73,20 +92,39 @@ class Arena {
         }
         return this._req('POST', 'channels/' + slug + '/blocks', block);
       },
-      deleteBlock: (id) => this._req('DELETE', 'channels/' + slug + '/blocks/' + id)
-    }
-  }
 
-  getChannel(slug, data) {
-    return this.channel(slug, data).get();
+      deleteBlock: (id) => this._req('DELETE',
+        'channels/' + slug + '/blocks/' + id)
+    }
   }
 
   block(id, data) {
     return {
       get: (opts) => this._req('GET', 'blocks/' + id, data, opts),
-      channels: (opts) => this._req('GET', 'blocks/' + id + '/channels', data, opts)
-        .then(pullObject('channels')),
+
+      channels: (opts) => this._req('GET',
+        'blocks/' + id + '/channels', data, opts)
+          .then(pullObject('channels')),
+
       create: (channel, content) => this.channel(channel).createBlock(content)
+    }
+  }
+
+  user(id, data) {
+    return {
+      get: (opts) => this._req('GET', 'users/' + id, data, opts),
+
+      channels: (opts) => this._req('GET', 'users/' + id + '/channels',
+        data, opts)
+          .then(pullObject('channels')),
+
+      following: (opts) => this._req('GET', 'users/' + id + '/following',
+        data, opts)
+          .then(pullObject('following')),
+
+      followers: (opts) => this._req('GET', 'users/' + id + '/followers',
+        data, opts)
+          .then(pullObject('users')),
     }
   }
 }
