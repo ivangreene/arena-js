@@ -1,6 +1,6 @@
 {
   "name": "are.na",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "Interface to are.na API",
   "main": "index.js",
   "files": [
