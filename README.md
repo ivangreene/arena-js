@@ -64,6 +64,7 @@ Method | Returns | Description
 `.deleteCollaborators(...userIds)` | *`Promise<Array>`* | Remove collaborators from a channel. Accepts userIds in the same format as addCollaborators.
 `.createBlock(content\|\|source)` | *`Promise<Object>`* | Create a block and add it to the channel. Specify textual content or a source link.
 `.deleteBlock(blockId)` | *`Promise`* | Remove a block from the channel.
+
 #### Example:
 ```js
 // Get first 3 pieces of content from a channel and print their titles
@@ -89,6 +90,7 @@ Method | Returns | Description
 `.get([params])` | *`Promise<Object>`* | Get the block specified by id.
 `.channels([params])` | *`Promise<Array>`* | Get a list of the channels a block belongs to.
 `.create(channelSlug, content \|\| source)` | *`Promise<Object>`* | Create a block and add it to the channel. Specify textual content or a source link.
+
 #### Example:
 ```js
 // Get a block, print its title
@@ -108,6 +110,12 @@ Method | Returns | Description
 `.following([params])` | *`Promise<Array>`* | Get a list of users and/or blocks the user is following. Supports pagination.
 `.followers([params])` | *`Promise<Array>`* | Get a list of the user's followers. Supports pagination.
 
+#### Example:
+```js
+// Get a user, print their name
+arena.user(23484).get().then(user => console.log(user.full_name));
+```
+
 ### `search(query[, params])`
 All methods support pagination.
 
@@ -117,3 +125,15 @@ Method | Returns | Description
 `.users([params])` | *`Promise<Array>`* | Search for users.
 `.channels([params])` | *`Promise<Array>`* | Search for channels.
 `.blocks([params])` | *`Promise<Array>`* | Search for blocks.
+
+#### Example:
+```js
+// Get the 2nd page of 3 channel results for 'art',
+// print links to them
+arena.search('art').channels({ page: 2, per: 3})
+  .then(channels => {
+    channels.map(chan => {
+      console.log('https://www.are.na/channels/' + chan.slug);
+    });
+  });
+```
