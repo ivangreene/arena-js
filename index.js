@@ -109,7 +109,9 @@ class Arena {
         'blocks/' + id + '/channels', data, opts)
           .then(pullObject('channels')),
 
-      create: (channel, content) => this.channel(channel).createBlock(content)
+      create: (channel, content) => this.channel(channel).createBlock(content),
+
+      update: (opts) => this._req('PUT', 'blocks/' + id, data, opts)
     }
   }
 

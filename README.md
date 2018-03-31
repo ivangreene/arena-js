@@ -90,6 +90,7 @@ Method | Returns | Description
 `.get([params])` | *`Promise<Object>`* | Get the block specified by id.
 `.channels([params])` | *`Promise<Array>`* | Get a list of the channels a block belongs to.
 `.create(channelSlug, content \|\| source)` | *`Promise<Object>`* | Create a block and add it to the channel. Specify textual content or a source link.
+`.update({ content, title, description })` | *`Promise`* | Update a block. Pass an object with one or more of content, title or description fields to update those fields.
 
 #### Example:
 ```js
@@ -100,6 +101,9 @@ arena.block(8693).get()
 
 // Create a block in the channel 'great-websites'
 arena.block().create('great-websites', 'https://are.na/');
+
+// Update a block
+arena.block('65234').update({ content: 'New content', title: 'New title', description: 'New description' });
 ```
 
 ### `user(id || slug[, params])`
