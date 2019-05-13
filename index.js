@@ -88,12 +88,11 @@ class Arena {
         'channels/' + slug + '/collaborators', {'ids[]': arrayOrList(ids)})
           .then(pullObject('users')),
 
-      createBlock: (content) => {
-        let block = { content };
-        if (content.match(/^https?:\/\//)) {
-          block = { source: content };
+      createBlock: (opts) => {
+        if (opts.content.match(/^https?:\/\//)) {
+          opts.source = opts.content
         }
-        return this._req('POST', 'channels/' + slug + '/blocks', block);
+        return this._req('POST', 'channels/' + slug + '/blocks', opts);
       },
 
       deleteBlock: (id) => this._req('DELETE',
@@ -109,7 +108,7 @@ class Arena {
         'blocks/' + id + '/channels', data, opts)
           .then(pullObject('channels')),
 
-      create: (channel, content) => this.channel(channel).createBlock(content),
+      create: (channel, opts) => this.channel(channel).createBlock(opts),
 
       update: (opts) => this._req('PUT', 'blocks/' + id, data, opts)
     }
