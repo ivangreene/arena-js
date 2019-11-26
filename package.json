@@ -1,13 +1,13 @@
 {
   "name": "are.na",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Interface to are.na API",
   "main": "index.js",
   "files": [
     "index.js"
   ],
   "scripts": {
-    "pretest": "find test/staged | grep \\? | sed -e 's#^.*api.are.na/v2/##' | cat test/staged/list.txt - | sort | uniq -u | wget -cx -P test/staged/get -B https://api.are.na/v2/ -i - --header=\"Authorization: Bearer $ARENA_ACCESS_TOKEN\"",
+    "pretest": "find test/staged | grep \\? | sed -e 's#^.*api.are.na/v2/##' | cat test/staged/list.txt - | sort | uniq -u | wget -cx -P test/staged/get -B https://api.are.na/v2/ -i - --header=\"X-ACCESS-TOKEN: $ARENA_ACCESS_TOKEN\"",
     "test": "mocha",
     "test:watch": "nodemon -e js,txt --exec 'yarn test'",
     "postversion": "git push && git push --tags"
