@@ -29,6 +29,7 @@ class Arena {
     };
     if (opts.accessToken) {
       headers['X-AUTH-TOKEN'] = opts.accessToken;
+      headers['Authorization'] = `Bearer ${opts.accessToken}`;
     }
     this.axios = axios.create({
       baseURL: opts.baseURL || 'https://api.are.na/v2/',
