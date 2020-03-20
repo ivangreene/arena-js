@@ -41,12 +41,13 @@ class Arena {
   }
 
   _req(method, url, data, params) {
-    return this.requestHandler(
-      method.toLowerCase(),
-      url,
-      data,
-      params
-    );
+    return method === 'get'
+      ? this.requestHandler(method.toLowerCase(), url, data, params)
+      : this.requestHandler(
+        method.toLowerCase(),
+        url,
+        qs.stringify(Object.assign({}, data), { indices: false })
+      )
   }
 
   channel(slug, data) {
