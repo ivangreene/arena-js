@@ -46,7 +46,7 @@ class Arena {
       : this.requestHandler(
         method.toLowerCase(),
         url,
-        qs.stringify(Object.assign({}, data), { indices: false })
+        qs.stringify(Object.assign({}, data, params), { indices: false })
       )
   }
 
