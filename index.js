@@ -24,7 +24,7 @@ class Arena {
   constructor(opts) {
     opts = opts || {};
     let headers = {
-      "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/json"
     };
     if (opts.accessToken) {
       headers["Authorization"] = `Bearer ${opts.accessToken}`;
