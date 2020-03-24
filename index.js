@@ -1,5 +1,4 @@
 const axios = require("axios");
-const qs = require("qs");
 
 // Helper to deal with pulling an inner object out of returned data
 // and then assigning other data as "attrs"
@@ -25,10 +24,13 @@ class Arena {
   constructor(opts) {
     opts = opts || {};
     let headers = {
-      "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/json"
     };
     if (opts.accessToken) {
       headers["Authorization"] = `Bearer ${opts.accessToken}`;
+    }
+    if (opts.authToken) {
+      headers["X-AUTH-TOKEN"] = `${opts.authToken}`;
     }
     this.axios = axios.create({
       baseURL: opts.baseURL || "https://api.are.na/v2/",
@@ -36,15 +38,20 @@ class Arena {
     });
     this.requestHandler =
       opts.requestHandler ||
-      ((method, url, data) =>
-        this.axios.request({ method, url, data }).then(({ data }) => data));
+      ((method, url, data) => {
+        return method === "get"
+          ? this.axios
+              .request({ method, url, params: data })
+              .then(({ data }) => data)
+          : this.axios.request({ method, url, data }).then(({ data }) => data);
+      });
   }
 
   _req(method, url, ...data) {
     return this.requestHandler(
       method.toLowerCase(),
       url,
-      qs.stringify(Object.assign({}, ...data), { indices: false })
+      Object.assign({}, ...data)
     );
   }
 

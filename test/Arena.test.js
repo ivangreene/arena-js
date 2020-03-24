@@ -5,12 +5,14 @@ const path = require("path");
 chai.use(require("chai-as-promised"));
 chai.use(require("sinon-chai"));
 const expect = chai.expect;
+const qs = require("qs");
 
 const Arena = require("../");
 let arena, requestHandler;
 
 beforeEach(function() {
-  requestHandler = sinon.spy(function(method, url, data) {
+  requestHandler = sinon.spy(function(method, url, ...data) {
+    const params = qs.stringify(Object.assign({}, ...data), { indices: false });
     return new Promise((resolve, reject) => {
       fs.readFile(
         path.join(
@@ -18,7 +20,7 @@ beforeEach(function() {
           "staged",
           method,
           "api.are.na/v2",
-          url.replace(/\/$/, "") + "?" + data
+          url.replace(/\/$/, "") + "?" + params
         ),
         "utf8",
         (err, data) => {
@@ -42,11 +44,10 @@ describe("Arena", function() {
         expect(
           arena.channel().get({ page: 3, per: 10 })
         ).to.eventually.have.property("channels"),
-        expect(requestHandler).to.have.been.calledWith(
-          "get",
-          "channels/",
-          "page=3&per=10"
-        )
+        expect(requestHandler).to.have.been.calledWith("get", "channels/", {
+          page: 3,
+          per: 10
+        })
       ]);
     });
   });
@@ -169,18 +170,18 @@ describe("Arena", function() {
     it(".all() should search for query", function() {
       return Promise.all([
         expect(search.all()).to.eventually.be.an("object"),
-        expect(requestHandler).to.have.been.calledWith("get", "search", "q=art")
+        expect(requestHandler).to.have.been.calledWith("get", "search", {
+          q: "art"
+        })
       ]);
     });
 
     it(".users() should search for users", function() {
       return Promise.all([
         expect(search.users()).to.eventually.be.an("array"),
-        expect(requestHandler).to.have.been.calledWith(
-          "get",
-          "search/users",
-          "q=art"
-        )
+        expect(requestHandler).to.have.been.calledWith("get", "search/users", {
+          q: "art"
+        })
       ]);
     });
 
@@ -190,7 +191,7 @@ describe("Arena", function() {
         expect(requestHandler).to.have.been.calledWith(
           "get",
           "search/channels",
-          "q=art"
+          { q: "art" }
         )
       ]);
     });
@@ -198,11 +199,9 @@ describe("Arena", function() {
     it(".blocks() should search for blocks", function() {
       return Promise.all([
         expect(search.blocks()).to.eventually.be.an("array"),
-        expect(requestHandler).to.have.been.calledWith(
-          "get",
-          "search/blocks",
-          "q=art"
-        )
+        expect(requestHandler).to.have.been.calledWith("get", "search/blocks", {
+          q: "art"
+        })
       ]);
     });
   });
