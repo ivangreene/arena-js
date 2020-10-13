@@ -2,18 +2,18 @@ const axios = require("axios");
 
 // Helper to deal with pulling an inner object out of returned data
 // and then assigning other data as "attrs"
-const pullObject = key => object => {
+const pullObject = (key) => (object) => {
   let newObj = object[key];
   delete object[key];
   Object.defineProperty(newObj, "attrs", {
-    value: object
+    value: object,
   });
   return newObj;
 };
 
 // Helper to accept an array or multiple arguments
 // and convert to array
-const arrayOrList = list => {
+const arrayOrList = (list) => {
   if (typeof list[0] === "object" || typeof list[0] === "array") {
     return list[0];
   }
@@ -24,7 +24,7 @@ class Arena {
   constructor(opts) {
     opts = opts || {};
     let headers = {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     };
     if (opts.accessToken) {
       headers["Authorization"] = `Bearer ${opts.accessToken}`;
@@ -34,7 +34,7 @@ class Arena {
     }
     this.axios = axios.create({
       baseURL: opts.baseURL || "https://api.are.na/v2/",
-      headers
+      headers,
     });
     this.requestHandler =
       opts.requestHandler ||
@@ -55,30 +55,42 @@ class Arena {
     );
   }
 
+  group(slug) {
+    slug = slug || "";
+    return {
+      get: (opts) => this._req("GET", "groups/" + slug, opts),
+
+      channels: (opts) =>
+        this._req("GET", "groups/" + slug + "/channels", opts).then(
+          pullObject("channels")
+        ),
+    };
+  }
+
   channel(slug, data) {
     slug = slug || "";
     return {
-      get: opts => this._req("GET", "channels/" + slug, data, opts),
+      get: (opts) => this._req("GET", "channels/" + slug, data, opts),
 
-      thumb: opts =>
+      thumb: (opts) =>
         this._req("GET", "channels/" + slug + "/thumb", data, opts),
 
-      connections: opts =>
+      connections: (opts) =>
         this._req("GET", "channels/" + slug + "/connections", data, opts).then(
           pullObject("channels")
         ),
 
-      channels: opts =>
+      channels: (opts) =>
         this._req("GET", "channels/" + slug + "/channels", data, opts).then(
           pullObject("channels")
         ),
 
-      contents: opts =>
+      contents: (opts) =>
         this._req("GET", "channels/" + slug + "/contents", data, opts).then(
           pullObject("contents")
         ),
 
-      collaborators: opts =>
+      collaborators: (opts) =>
         this._req(
           "GET",
           "channels/" + slug + "/collaborators",
@@ -91,90 +103,90 @@ class Arena {
           // Allow it to be called as .channel(title).create(status) or
           // .channel().create(title, status)
           title: slug || title,
-          status: slug ? title : status
+          status: slug ? title : status,
         }),
 
-      delete: deleteSlug =>
+      delete: (deleteSlug) =>
         this._req("DELETE", "channels/" + (slug || deleteSlug)),
 
-      update: opts => this._req("PUT", "channels/" + slug, opts),
+      update: (opts) => this._req("PUT", "channels/" + slug, opts),
 
       addCollaborators: (...ids) =>
         this._req("POST", "channels/" + slug + "/collaborators", {
-          "ids[]": arrayOrList(ids)
+          "ids[]": arrayOrList(ids),
         }).then(pullObject("users")),
 
       deleteCollaborators: (...ids) =>
         this._req("DELETE", "channels/" + slug + "/collaborators", {
-          "ids[]": arrayOrList(ids)
+          "ids[]": arrayOrList(ids),
         }).then(pullObject("users")),
 
-      createBlock: opts => {
+      createBlock: (opts) => {
         if (opts.content.match(/^https?:\/\//)) {
           opts.source = opts.content;
         }
         return this._req("POST", "channels/" + slug + "/blocks", opts);
       },
 
-      deleteBlock: id =>
-        this._req("DELETE", "channels/" + slug + "/blocks/" + id)
+      deleteBlock: (id) =>
+        this._req("DELETE", "channels/" + slug + "/blocks/" + id),
     };
   }
 
   block(id, data) {
     return {
-      get: opts => this._req("GET", "blocks/" + id, data, opts),
+      get: (opts) => this._req("GET", "blocks/" + id, data, opts),
 
-      channels: opts =>
+      channels: (opts) =>
         this._req("GET", "blocks/" + id + "/channels", data, opts).then(
           pullObject("channels")
         ),
 
       create: (channel, opts) => this.channel(channel).createBlock(opts),
 
-      update: opts => this._req("PUT", "blocks/" + id, data, opts)
+      update: (opts) => this._req("PUT", "blocks/" + id, data, opts),
     };
   }
 
   user(id, data) {
     return {
-      get: opts => this._req("GET", "users/" + id, data, opts),
+      get: (opts) => this._req("GET", "users/" + id, data, opts),
 
-      channels: opts =>
+      channels: (opts) =>
         this._req("GET", "users/" + id + "/channels", data, opts).then(
           pullObject("channels")
         ),
 
-      following: opts =>
+      following: (opts) =>
         this._req("GET", "users/" + id + "/following", data, opts).then(
           pullObject("following")
         ),
 
-      followers: opts =>
+      followers: (opts) =>
         this._req("GET", "users/" + id + "/followers", data, opts).then(
           pullObject("users")
-        )
+        ),
     };
   }
 
   search(q, data) {
     return {
-      all: opts => this._req("GET", "search", { q }, data, opts),
+      all: (opts) => this._req("GET", "search", { q }, data, opts),
 
-      users: opts =>
+      users: (opts) =>
         this._req("GET", "search/users", { q }, data, opts).then(
           pullObject("users")
         ),
 
-      channels: opts =>
+      channels: (opts) =>
         this._req("GET", "search/channels", { q }, data, opts).then(
           pullObject("channels")
         ),
 
-      blocks: opts =>
+      blocks: (opts) =>
         this._req("GET", "search/blocks", { q }, data, opts).then(
           pullObject("blocks")
-        )
+        ),
     };
   }
 }
