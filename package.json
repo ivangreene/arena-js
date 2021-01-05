@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/ivangreene/arena-js#readme",
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "qs": "^6.5.1"
   },
   "devDependencies": {
