@@ -41,8 +41,8 @@ class Arena {
       ((method, url, data) => {
         return method === "get"
           ? this.axios
-              .request({ method, url, params: data })
-              .then(({ data }) => data)
+            .request({ method, url, params: data })
+            .then(({ data }) => data)
           : this.axios.request({ method, url, data }).then(({ data }) => data);
       });
   }
@@ -122,8 +122,11 @@ class Arena {
         }).then(pullObject("users")),
 
       createBlock: (opts) => {
-        if (opts.content.match(/^https?:\/\//)) {
-          opts.source = opts.content;
+        if(typeof opts !== 'object' && opts !== null) {
+          opts = {
+            source: opts.match(/^https?:\/\//) ? opts : '',
+            content: !opts.match(/^https?:\/\//) ? opts : ''
+          }
         }
         return this._req("POST", "channels/" + slug + "/blocks", opts);
       },
@@ -167,6 +170,12 @@ class Arena {
           pullObject("users")
         ),
     };
+  }
+
+  me() {
+    return {
+      get: () => this._req("GET", "me/")
+    }
   }
 
   search(q, data) {
