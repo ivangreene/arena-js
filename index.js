@@ -41,8 +41,8 @@ class Arena {
       ((method, url, data) => {
         return method === "get"
           ? this.axios
-              .request({ method, url, params: data })
-              .then(({ data }) => data)
+            .request({ method, url, params: data })
+            .then(({ data }) => data)
           : this.axios.request({ method, url, data }).then(({ data }) => data);
       });
   }
@@ -170,6 +170,12 @@ class Arena {
           pullObject("users")
         ),
     };
+  }
+
+  me() {
+    return {
+      get: () => this._req("GET", "me/")
+    }
   }
 
   search(q, data) {
