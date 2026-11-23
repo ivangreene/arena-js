@@ -1,5 +1,22 @@
 # are.na API wrapper for JavaScript
 
+> [!WARNING]
+> **This package is deprecated and no longer maintained.** It targets the Are.na V2 API, which is being retired. New and existing projects should move to the official V3 SDK, [`@aredotna/sdk`](https://github.com/aredotna/sdk/tree/main/packages/sdk):
+>
+> ```bash
+> npm install @aredotna/sdk
+> ```
+>
+> ```js
+> import { createArena } from "@aredotna/sdk";
+>
+> const arena = createArena();
+> const channel = await arena.channels.get("arena-influences");
+> const contents = await arena.channels.contents(channel.slug, { per: 24 });
+> ```
+>
+> See the [V3 API documentation](https://www.are.na/developers/explore) for the full reference. Are.na also provides an official [CLI](https://github.com/aredotna/cli) and a hosted [MCP server](https://github.com/aredotna/mcp).
+
 Uses [Axios](https://github.com/axios/axios), which is Promise-based and compatible with Node.js/io.js or modern browsers. Use it server side, or in your React, Vue or Angular apps.
 
 ## Installation
